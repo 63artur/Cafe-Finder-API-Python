@@ -5,31 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
 
-'''
-Install the required packages first: 
-Open the Terminal in PyCharm (bottom left). 
-
-On Windows type:
-python -m pip install -r requirements.txt
-
-On MacOS type:
-pip3 install -r requirements.txt
-
-This will install the packages from requirements.txt for this project.
-'''
-
 app = Flask(__name__)
 api_key = "TopSecretApi"
-# CREATE DB
 class Base(DeclarativeBase):
     pass
-# Connect to Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
-
-
-# Cafe TABLE Configuration
 class Cafe(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
@@ -68,7 +50,7 @@ def post_new_cafe():
         map_url=request.form.get("map_url"),
         img_url=request.form.get("img_url"),
         location=request.form.get("loc"),
-        has_sockets=bool(int(request.form.get("sockets", 0))),  # Zamiana stringa na int i bool
+        has_sockets=bool(int(request.form.get("sockets", 0))),
         has_toilet=bool(int(request.form.get("toilet", 0))),
         has_wifi=bool(int(request.form.get("wifi", 0))),
         can_take_calls=bool(int(request.form.get("calls", 0))),
